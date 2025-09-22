@@ -1,0 +1,105 @@
+.accordionTitle{
+    font-size: 15px;
+    font-family: 'montserrat', sans-serif;
+}
+.sizeButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+.openingSection{
+    margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.openingSectionTitle{
+    font-size: 15px;
+    font-family: 'montserrat', sans-serif;
+    width: fit-content;
+}
+
+.sectionTitle{
+    font-size: 15px;
+    font-family: 'montserrat', sans-serif;
+    padding-bottom: 10px;
+    border-bottom: solid 1px gray;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.clothingTitleSection{
+    width: 100%;
+    padding-top: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sliderContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px
+}
+.slider{
+    width: 100%;
+    overflow: hidden;
+}
+.navButton{
+    border: solid 1px black;
+    cursor: pointer;    
+    padding: 0;
+    border-radius: 20px;
+    width: 26px;
+    height: 26px;
+}
+.headerContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.sectionSmallTitle{
+    font-size: 15px;
+    font-weight: 300;
+    color: "#5c5b59";
+    font-family: 'montserrat', sans-serif;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+.hairstylesSelector{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.scrollable{
+    flex: 1;
+    overflow-y: scroll;
+    height: 100%;
+    padding-right: 20px;
+    margin-bottom: 0;
+}
+.dashboardContainer{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+@media screen and (max-width: 1000px) {
+    .headerContainer {
+      display: none;
+    }
+    .scrollable{
+        padding: 0;
+    }
+  }
+

@@ -1,0 +1,26 @@
+.overlayInfoContainer{
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    padding: 2rem;
+}
+.overlayInfo{
+    font-family: 'montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    margin: 0 0 1rem 0;
+    z-index: 99;
+}
+
+.overlayBGContainer{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}

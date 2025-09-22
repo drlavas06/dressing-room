@@ -1,0 +1,48 @@
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.track {
+    width: fit-content;
+    display: flex;
+    padding: 1em 0;
+}
+
+.crouselItem {
+    width: auto;
+    border-radius: 100%;
+    overflow: clip;
+    aspect-ratio: 1;
+    cursor: pointer;
+    border: solid 2px #dcdcdc;
+    padding: 0;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+}
+.selected{
+    border-color: #000;
+}
+.thumbNail{
+     height: 100%;
+     object-fit: cover;
+}
+.smallItem{
+    width: 18% ;
+}
+
+.margin{
+    margin: 10%;
+}
+
+.loading{
+    opacity: 0.5;
+    cursor: wait;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .smallItem{
+        width: 39px;
+    }
+}    

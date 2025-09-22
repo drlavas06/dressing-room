@@ -1,0 +1,25 @@
+.overlayActionsContainer {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+
+
+
+@media screen and (max-width: 1000px) {
+  .overlayActionsbottom{
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+  }
+}

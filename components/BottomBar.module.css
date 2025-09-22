@@ -1,0 +1,55 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+}
+.mannequinSelector {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 150px;
+    border-radius: 36px;
+    background-color: white;
+    padding: 8px 16px;    
+}
+.tabButtonLabel{
+    font-weight: 400;
+    font-family: "Montserrat", sans-serif;
+}
+.tabItemLabel {
+    font-weight: 400;
+    font-family: "Montserrat", sans-serif;
+}
+.tabItem{
+    display: flex;
+    flex-direction: row;
+    gap:5px;
+    align-items: center;
+}
+
+@media screen and (max-width: 1000px) {
+    .mannequinTitle {
+        display: none;
+    }
+    .mannequinSelector{
+        padding: 4px 8px;
+    }
+    .container{
+        flex-direction: row-reverse;
+        padding: 10px 15px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: auto;
+        width: 100%;
+    }
+    .tabItemLabel{
+        display: none;
+    }
+    .tabButtonLabel{
+        font-size: 10px;
+    }
+}
