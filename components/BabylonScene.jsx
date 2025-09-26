@@ -6,6 +6,7 @@ import styles from "./scene.module.css";
 import { useStateProviderValue } from "../DataLayer/StateProvider";
 import moveActiveCamera, { CamComeBack } from "./utils/moveCam";
 import constants from "./utils/Constants";
+import { skinTextureMap } from "./utils/Constants";
 import createAnimation from "./utils/createAnimation";
 import { Button } from "antd/es/radio";
 import {
@@ -42,8 +43,12 @@ const BabylonScene = ({ size }) => {
   // Utility functions and scene operations (same as before)
   const capitalize = (s) => s[0].toUpperCase() + s.slice(1);
 
+  /*const getMainModelUrl = () =>
+    `${constants.storageBaseUrl}%2F${size}.glb?alt=media`;*/
+
+
   const getMainModelUrl = () =>
-    `${constants.storageBaseUrl}%2F${size}.glb?alt=media`;
+    `${constants.storageBaseUrl}%2Fcombined.glb?alt=media`;
 
   const getClothingUrl = (section, id, path = null) => {
     if (section === "Hairstyles") {
@@ -67,8 +72,14 @@ const BabylonScene = ({ size }) => {
     );
   };
 
-  const getTextureUrl = (to) =>
-    `${constants.storageBaseUrl}%2Ftexture%2F${to.value}.glb?alt=media`;
+  /*const getTextureUrl = (to) =>
+    `${constants.storageBaseUrl}%2Fcombined-textures%2F${to.value}.glb?alt=media`;
+  */
+
+  const getTextureUrl = (to) => {
+    const filename = skinTextureMap[to.value]; 
+    return `${constants.storageBaseUrl}%2Fcombined-textures%2F${filename}?alt=media`;
+  };
 
   const loadMesh = (url, onSuccess, onError) => {
     SceneLoader.ImportMesh(
@@ -91,7 +102,7 @@ const BabylonScene = ({ size }) => {
         // Apply the skin texture immediately after loading the model.
         updateSkinColor(skinColor, "character");
 
-        if (meshes[0]?.material) {
+        /*if (meshes[0]?.material) {
           const mat = meshes[0].material;
 
           // === OPTIONAL SKIN TWEAKS ===
@@ -105,7 +116,7 @@ const BabylonScene = ({ size }) => {
           mat.subSurface.minimumThickness = 0.2;
           mat.subSurface.maximumThickness = 1.0;
           sceneRef.current.debugLayer.select(meshes[0].material, "SUBSURFACE");
-        }
+        }*/
 
         if (modelProp) {
           Object.entries(modelProp).forEach(([area, value]) => {
@@ -193,29 +204,43 @@ const BabylonScene = ({ size }) => {
 
   const updateSkinColor = (to, modifier) => {
     if (!sceneRef.current) return;
-    const targetMeshes = sceneRef.current.meshes.filter((mesh) =>
+    /*const targetMeshes = sceneRef.current.meshes.filter((mesh) =>
       mesh.id.includes(modifier)
+    );*/
+
+    /*Denys: Filter meshes for body and face only.*/
+    const targetMeshes = sceneRef.current.meshes.filter(
+      (mesh) =>
+      mesh.name === "M_mannequin_primitive0" || // body
+      mesh.name === "M_mannequin_primitive1"    // face
     );
+
     if (!targetMeshes.length) return;
     const url = getTextureUrl(to);
     loadMesh(url, (textureMeshes) => {
       textureMeshes.forEach((textureMesh) => {
-        if (textureMesh.material) {
+        if (textureMesh.material && textureMesh.material.albedoTexture) {
+
+          const albedo = textureMesh.material.albedoTexture; //only use albedo map since other maps are the same for 11 skin texture materials
           targetMeshes.forEach((mesh) => {
-            //mesh.material = textureMesh.material;
-            const mat = textureMesh.material;
 
-            // Apply subsurface scattering for skin realism
-            mat.metallic = 0.0;     // no metallic look
-            mat.roughness = 0.6;    // softer highlights
-            mat.subSurface.isTranslucencyEnabled = true;
-            mat.subSurface.translucencyIntensity = 0.35;  // tweak 0.2–0.5
-            mat.subSurface.tintColor = new BABYLON.Color3(1.0, 0.75, 0.65); // warm tone
-            mat.subSurface.minimumThickness = 0.2;
-            mat.subSurface.maximumThickness = 1.0;
+            if(mesh.name === textureMesh.name ) {
+              //mesh.material = textureMesh.material;
+              const mat = mesh.material;
 
-            //mesh.material.bumpTexture = new BABYLON.Texture("2K/skin_8.007_Normal.png", scene); 
-            mesh.material = mat;
+              // Apply subsurface scattering for skin realism
+              mat.metallic = 0.0;     // no metallic look
+              mat.roughness = 1;    // softer highlights
+              mat.subSurface.isTranslucencyEnabled = true;
+              mat.subSurface.translucencyIntensity = 0.35;  // tweak 0.2–0.5
+              mat.subSurface.tintColor = new BABYLON.Color3(1.0, 0.75, 0.65); // warm tone
+              mat.subSurface.minimumThickness = 0.1;
+              mat.subSurface.maximumThickness = 1.0;
+
+              // Apply only base color texture
+              mat.albedoTexture = albedo;
+
+            }
 
           });
         }
@@ -279,16 +304,18 @@ const initializeScene = () => {
     createSkybox: true,
     enableEnvironmentTexture: false, // we’ll set it explicitly next line
   });
-  scene.environmentTexture = hdrTexture;
-  */
+  scene.environmentTexture = hdrTexture;*/
+  
   
   // Optional: gamma correction (helps with skin tones)
   scene.imageProcessingConfiguration.applyByPostProcess = true;
   scene.imageProcessingConfiguration.toneMappingEnabled = true;
   scene.imageProcessingConfiguration.toneMappingType = BABYLON.ImageProcessingConfiguration.TONEMAPPING_ACES;
-  scene.imageProcessingConfiguration.exposure = 1.2;
-  scene.imageProcessingConfiguration.contrast = 1.05;
+  scene.imageProcessingConfiguration.exposure = 1.0;
+  scene.imageProcessingConfiguration.contrast = 1.00;
+  
 
+  
   const hdrTex = BABYLON.CubeTexture.CreateFromPrefilteredData(
     "https://assets.babylonjs.com/environments/sanGiuseppeBridge.env", //.env only. Not .hdr
     scene

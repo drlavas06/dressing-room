@@ -373,4 +373,22 @@ export const navigationLinks = [
     target: "_blank",
   },
 ];
+
+// constants.js
+
+export const skinTextureMap = {
+  1: "ExtraLight.glb",
+  2: "Light.glb",
+  3: "LightMedium.glb",
+  4: "Medium.glb",
+  5: "Olive.glb",
+  6: "LightBrown.glb",
+  7: "MediumBrown.glb",
+  8: "MediumDark.glb",
+  9: "Brown.glb",
+  10: "DarkBrown.glb",
+  11: "Deep.glb",
+};
+
+
 export default constants;
